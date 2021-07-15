@@ -9,7 +9,7 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\TaskResultCollection;
 use App\Http\Requests\TaskResults\ValidateIndexRequest;
-use App\Http\Requests\TaskResults\ValidateStoreRequest;
+use App\Http\Requests\TaskResults\ValidateStoreTaskResultRequest;
 
 class TaskResultController extends Controller
 {
@@ -43,7 +43,7 @@ class TaskResultController extends Controller
      *     @OA\Response(
      *         response=200,
      *         description="Successful operation",
-     *         @OA\JsonContent(ref="#/components/schemas/IndexTaskResultsResource")
+     *         @OA\JsonContent(ref="#/components/schemas/TaskResultCollection")
      *      ),
      *     @OA\Response(
      *         response=422,
@@ -88,12 +88,13 @@ class TaskResultController extends Controller
      *     description="Returns result data",
      *     @OA\RequestBody(
      *         required=true,
-     *         @OA\JsonContent(ref="#/components/schemas/StoreTaskResultRequest")
+     *         type="object",
+     *         @OA\JsonContent(ref="#/components/schemas/ValidateStoreTaskResultRequest")
      *     ),
      *     @OA\Response(
      *         response=201,
      *         description="Successful operation",
-     *         @OA\JsonContent(ref="#/components/schemas/TaskResult")
+     *         @OA\JsonContent(ref="#/components/schemas/TaskResultResource")
      *      ),
      *     @OA\Response(
      *         response=422,
@@ -105,11 +106,11 @@ class TaskResultController extends Controller
      *     ),
      * )
      *
-     * @param ValidateStoreRequest $request
+     * @param ValidateStoreTaskResultRequest $request
      *
      * @return JsonResponse
      */
-    public function store(ValidateStoreRequest $request): JsonResponse
+    public function store(ValidateStoreTaskResultRequest $request): JsonResponse
     {
         try {
             $result = TaskResult::create([

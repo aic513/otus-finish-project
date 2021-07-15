@@ -6,6 +6,7 @@ use Exception;
 use App\Models\Achievement;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\AchievementResource;
 use App\Http\Resources\AchievementCollection;
 use App\Http\Requests\Achievements\ValidateStoreRequest;
 use App\Http\Requests\Achievements\ValidateIndexRequest;
@@ -45,7 +46,7 @@ class AchievementController extends Controller
      *     @OA\Response(
      *         response=200,
      *         description="Successful operation",
-     *         @OA\JsonContent(ref="#/components/schemas/IndexAchievementResource")
+     *         @OA\JsonContent(ref="#/components/schemas/AchievementCollection")
      *      ),
      *     @OA\Response(
      *         response=422,
@@ -92,12 +93,12 @@ class AchievementController extends Controller
      *     description="Returns achievement data",
      *     @OA\RequestBody(
      *         required=true,
-     *         @OA\JsonContent(ref="#/components/schemas/StoreAchievementRequest")
+     *         @OA\JsonContent(ref="#/components/schemas/ValidateStoreTaskResultRequest")
      *     ),
      *     @OA\Response(
      *         response=201,
      *         description="Successful operation",
-     *         @OA\JsonContent(ref="#/components/schemas/Achievement")
+     *         @OA\JsonContent(ref="#/components/schemas/AchievementResource")
      *      ),
      *     @OA\Response(
      *         response=422,
@@ -129,7 +130,7 @@ class AchievementController extends Controller
             ])->setStatusCode(500);
         }
 
-        return response()->json($achievement)->setStatusCode(201);
+        return response()->json(new AchievementResource($achievement))->setStatusCode(201);
     }
 
     /**
@@ -152,12 +153,12 @@ class AchievementController extends Controller
      *     ),
      *     @OA\RequestBody(
      *         required=true,
-     *         @OA\JsonContent(ref="#/components/schemas/StoreAchievementRequest")
+     *         @OA\JsonContent(ref="#/components/schemas/ValidateUpdateRequest")
      *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Successful operation",
-     *         @OA\JsonContent(ref="#/components/schemas/Achievement")
+     *         @OA\JsonContent(ref="#/components/schemas/AchievementResource")
      *      ),
      *     @OA\Response(
      *         response=422,
@@ -208,7 +209,7 @@ class AchievementController extends Controller
             ])->setStatusCode(500);
         }
 
-        return response()->json($achievement)->setStatusCode(200);
+        return response()->json(new AchievementResource($achievement))->setStatusCode(200);
     }
 
     /**
